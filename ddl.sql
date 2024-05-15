@@ -1,18 +1,25 @@
+drop table departamento, professor, curso, disciplina, matriz_curricular, aluno, historico_escolar,
+historico_disc_professor, tcc, grupo_tcc;
+
 create table departamento (
 	id int,
 	nome varchar,
-	chefe_dept int,
-	primary key (id),
-	foreign key (chefe_dept) references professor(id)
+	primary key (id)
 );
 
 create table professor (
 	id int,
 	nome varchar(255),
-	id_dept int,
-	primary key (id),
-	foreign key (id_dept) references departamento(id)
+	primary key (id)
 );
+
+alter table departamento
+add constraint chefe_dept foreign key (id) 
+references professor(id);
+
+alter table professor
+add constraint id_dept foreign key (id) 
+references departamento(id);
 
 create table curso (
 	id int,
@@ -23,7 +30,7 @@ create table curso (
 );
 
 create table disciplina ( 
-	codigo varchar,
+	codigo varchar not null,
 	nome varchar,
 	id_dept int,
 	primary key (codigo),
@@ -34,7 +41,7 @@ create table matriz_curricular (
 	id int,
 	id_curso int,
 	id_disc varchar,
-	semestre int
+	semestre int,
 	primary key (id),
 	foreign key (id_curso) references curso(id),
 	foreign key (id_disc) references disciplina(codigo)
@@ -51,13 +58,13 @@ create table aluno (
 create table historico_escolar ( 
 	id int,
 	id_aluno varchar,
-	id_disc varchar,
+	cod_disc varchar,
 	semestre int,
 	ano int,
-	nota numeric
+	nota numeric,
 	primary key (id),
 	foreign key (id_aluno) references aluno(ra),
-	foreign key (id_disc) references disciplina(codigo)
+	foreign key (cod_disc) references disciplina(codigo)
 );
 
 create table historico_disc_professor (
@@ -68,7 +75,7 @@ create table historico_disc_professor (
 	ano int,
 	primary key (id),
 	foreign key (id_prof) references professor(id),
-	foreign key cod_disc references disciplina(codigo)
+	foreign key (cod_disc) references disciplina(codigo)
 );
 
 
