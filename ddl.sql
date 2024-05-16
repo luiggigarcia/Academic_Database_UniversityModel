@@ -4,12 +4,15 @@ historico_disc_professor, tcc, grupo_tcc;
 create table departamento (
 	id int,
 	nome varchar,
-	primary key (id)
+	chefe_dept int NULL,
+	primary key (id),
+	
 );
 
 create table professor (
 	id int,
 	nome varchar(255),
+	id_dept int NULL
 	primary key (id)
 );
 
