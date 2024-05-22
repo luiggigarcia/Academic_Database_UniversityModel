@@ -251,6 +251,8 @@ semestre_matriz = 1
 matriz_curricular = {}
 for id_curso in courses.keys():
     for _ in range(5):
+        if (semestre_matriz >= 9): 
+            semestre_matriz = 1
         id_subj = random.sample(list(subjects.keys()), 1)[0]
         matriz_curricular[semestre_matriz] = id_subj 
         str = f"INSERT INTO matriz_curricular (id_curso, id_disc, semestre) VALUES ({id_curso}, {id_subj}, {semestre_matriz});\n"
