@@ -5,7 +5,7 @@ fake = Faker('pt_BR')
 def generate_id(n):
      id = ""
      for _ in range(n):
-        id += random.choice("0123456789")
+        id += "{}".format(random.randint(0, 9))
      return id
             
 
@@ -246,18 +246,28 @@ for ra, nome in students.items():
     id_curso = random.sample(list(courses.keys()), 1)[0]
     str = f"INSERT INTO aluno (ra, nome, id_curso) VALUES ({ra}, '{nome}', {id_curso});\n"
     script.write(str)
-    
+
+semestre_matriz = 1
+matriz_curricular = {}
 for id_curso in courses.keys():
-    semester = random.randint(1, 9)
-    id_subj = random.sample(list(subjects.keys()), 1)[0]
-    str = f"INSERT INTO matriz_curricular (id_curso, id_disc, semestre) VALUES ({id_curso}, {id_subj}, {semester});\n"
-    script.write(str)
+    for _ in range(5):
+        id_subj = random.sample(list(subjects.keys()), 1)[0]
+        matriz_curricular[semestre_matriz] = id_subj 
+        str = f"INSERT INTO matriz_curricular (id_curso, id_disc, semestre) VALUES ({id_curso}, {id_subj}, {semestre_matriz});\n"
+        script.write(str)
+    semestre_matriz += 1
 
 for id_aluno in students.keys():
     for _ in range(6):
-        semester = random.randint(1, 9)
-        year = year = random.randint(2018, 2024)
-        id_subj = random.sample(list(subjects.keys()), 1)[0]
+        semester = random.sample(list(matriz_curricular.keys()), 1)[0]
+        year = 0
+        if (1 <= int(semester) <= 2): year = 2018
+        if (3 <= int(semester) <= 4): year = 2019
+        if (4 <= int(semester) <= 5): year = 2020
+        if (5 <= int(semester) <= 6): year = 2021
+        if (7 <= int(semester) <= 8): year = 2022
+        if (8 <= int(semester) <= 9): year = 2023
+        id_subj = random.sample(list(matriz_curricular.values()), 1)[0]
         point = random.randint(0, 10)
         str = f"INSERT INTO historico_escolar (id_aluno, cod_disc, semestre, ano, nota) VALUES ({id_aluno}, {id_subj}, {semester}, {year}, {point});\n"
         script.write(str)
