@@ -1,11 +1,12 @@
 -- Historico escolar de todos os alunos.
-select a.nome as "aluno", h.cod_disc as "cod disc", d.nome as "disciplina",
+select a.ra as "RA", a.nome as "aluno", h.cod_disc as "cod disc", d.nome as "disciplina",
 h.semestre, h.ano, h.nota
 from historico_escolar h
 join aluno a
 on a.ra = h.id_aluno 
 join disciplina d
-on d.codigo = h.cod_disc;
+on d.codigo = h.cod_disc
+order by semestre, a.nome;
 
 -- Historico de disciplinas ministradas pelos professores.
 select p.nome as "professor", d.nome as "disciplina" ,h.semestre, h.ano
